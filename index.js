@@ -34,7 +34,6 @@ const verifyFirebaseToken = async (req, res, next) => {
         return res.status(401).send({ message: "unauthorized access" });
     }
     const token = authHeader.split(' ')[1];
-    //    console.log('token in the middleWar',token);
     try {
         const decoded = await admin.auth().verifyIdToken(token);
 
