@@ -22,7 +22,7 @@ const client = new MongoClient(uri, {
 });
 const admin = require("firebase-admin");
 
-// const serviceAccount = require("./firebase-admin.json");git commit --amend --all
+ const serviceAccount = require("./firebase-admin.json");
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
