@@ -6,8 +6,17 @@ const port = process.env.PORT || 5012;
 require('dotenv').config();
 
 // middleWar
-app.use(cors());
-app.use(express.json());
+//Must remove "/" from your production URL
+app.use(
+    cors({
+      origin: [
+        "http://localhost:5173",
+        "https://product-recommendation-3e40a.web.app",
+        "https://product-recommendation-3e40a.firebaseapp.com",
+      ],
+      credentials: true,
+    })
+  );app.use(express.json());
 
 
 const uri = `mongodb+srv://${process.env.DB_User}:${process.env.DB_PASS}@cluster0.hl3uycw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
@@ -20,12 +29,12 @@ const client = new MongoClient(uri, {
         deprecationErrors: true,
     }
 });
-const admin = require("firebase-admin");
+var admin = require("firebase-admin");
 
- const serviceAccount = require("./firebase-admin.json");
+var serviceAccount = require("./firebase-admin.json");
 
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(serviceAccount),
 });
 
 const verifyFirebaseToken = async (req, res, next) => {
@@ -70,7 +79,7 @@ async function run() {
                 }
             ]
         );
-        console.log("✅ Converted string 'recommendationCount' to number if needed.");
+        
         //   post all queries API
         app.post('/queries', verifyFirebaseToken, async (req, res) => {
             // from Firebase
